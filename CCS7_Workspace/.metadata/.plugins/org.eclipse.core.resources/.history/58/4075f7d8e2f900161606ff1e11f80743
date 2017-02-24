@@ -1,0 +1,162 @@
+/*
+ * main.c
+ */
+
+#include<stdint.h>
+#include"tm4c123gh6pm.h"
+#include"emp_type.h"
+//#include"systick.c"
+
+INT8U       counter_value = 0;
+
+
+
+
+
+#define SYSTICK_RELOAD_VALUE 80000 // 5 mS
+
+// Missing definitions in tm4c123gh6pm.h file
+#define NVIC_INT_CTRL_PEND_SYST   0x04000000  // Pend a systick int
+#define NVIC_INT_CTRL_UNPEND_SYST 0x02000000  // Unpend a systick int
+
+#define SYSTICK_PRIORITY    0x7E
+
+
+void SysTick_Handler(void)
+/*****************************************************************************
+*   Function : See module specification (.h-file).
+*****************************************************************************/
+{
+  // Hardware clears systick int reguest
+
+  // Do your stuff
+}
+
+
+void enable_global_int()
+{
+  // enable interrupts.
+  __asm("cpsie i");
+}
+
+void disable_global_int()
+{
+  // disable interrupts.
+  __asm("cpsid i");
+}
+
+
+
+
+void SysTickInit()
+{
+
+  // Disable systick timer
+  NVIC_ST_CTRL_R &= ~(NVIC_ST_CTRL_ENABLE);
+
+  // Set current systick counter to reload value
+  NVIC_ST_CURRENT_R = SYSTICK_RELOAD_VALUE;
+  // Set Reload value, Systick reload register
+  NVIC_ST_RELOAD_R = SYSTICK_RELOAD_VALUE;
+
+  // NVIC systick setup, vector number 15
+  // Clear pending systick interrupt request
+  NVIC_INT_CTRL_R |= NVIC_INT_CTRL_UNPEND_SYST;
+
+  // Set systick priority to 0x10, first clear then set.
+  NVIC_SYS_PRI3_R &= ~(NVIC_SYS_PRI3_TICK_M);
+  NVIC_SYS_PRI3_R |= (NVIC_SYS_PRI3_TICK_M & (SYSTICK_PRIORITY<<NVIC_SYS_PRI3_TICK_S));
+
+  // Select systick clock source, Use core clock
+  NVIC_ST_CTRL_R |= NVIC_ST_CTRL_CLK_SRC;
+
+  // Enable systick interrupt
+  NVIC_ST_CTRL_R |= NVIC_ST_CTRL_INTEN;
+
+  // Enable and start timer
+  NVIC_ST_CTRL_R |= NVIC_ST_CTRL_ENABLE;
+}
+
+
+
+
+
+
+int main(void) {
+
+    int dummy;
+
+    // Enable the GPIO port that is used for the on-board LEDs and switches.
+    SYSCTL_RCGC2_R = SYSCTL_RCGC2_GPIOF;
+
+    // Do a dummy read to insert a few cycles after enabling the peripheral.
+    dummy = SYSCTL_RCGC2_R;
+
+    // Set the direction as output (PF1 - PF3).
+    GPIO_PORTF_DIR_R = 0x0E;
+
+    // Enable the GPIO pins for digital function (PF1 - PF4).
+    GPIO_PORTF_DEN_R = 0x1E;
+
+    // Enable internal pull-up (PF4).
+    GPIO_PORTF_PUR_R = 0x10;
+
+
+
+    // Loop forever.
+    while(1)
+    {
+        if( GPIO_PORTF_DATA_R & 0x10 )         //if PF4 er high
+        {
+
+            GPIO_PORTF_DATA_R &= ~(0x02);
+        }
+        else
+        {
+            if( counter_value < 7)
+            {
+                counter_value++;
+            }
+            else
+            {
+                counter_value = 0;
+            }
+
+
+            switch(counter_value)
+            {
+                case 0:
+                                       GPIO_PORTF_DATA_R |= 0x00;
+                                   case 1:
+                                       GPIO_PORTF_DATA_R |= 0x08;
+                                   case 2:
+                                       GPIO_PORTF_DATA_R |= 0x04;
+                                   case 3:
+                                       GPIO_PORTF_DATA_R |= 0x0C;
+                                   case 4:
+                                       GPIO_PORTF_DATA_R |= 0x02;
+                                   case 5:
+                                       GPIO_PORTF_DATA_R |= 0x0A;
+                                   case 6:
+                                       GPIO_PORTF_DATA_R |= 0x06;
+                                   case 7:
+                                       GPIO_PORTF_DATA_R |= 0x0E;
+                                   default:
+                                       GPIO_PORTF_DATA_R |= 0x00;
+            };
+
+            GPIO_PORTF_DATA_R |= 0x02;
+        }
+
+    }
+
+    return 0;
+}
+//0 0x00 off
+//1 0x08 green
+//2 0x04 blue
+//3 0x0C Cyan
+//4 0x02 Red
+//5 0x0A Yellow
+//6 0x06 Magenta
+//7 0x0E White
