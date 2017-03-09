@@ -1,0 +1,44 @@
+/*****************************************************************************
+* University of Southern Denmark
+* Embedded Programming (EMP)
+*
+* MODULENAME.: emp.c
+*
+* PROJECT....: EMP
+*
+* DESCRIPTION: See module specification file (.h-file).
+*
+* Change Log:
+*****************************************************************************
+* Date    Id    Change
+* YYMMDD
+* --------------------
+* 050128  KA    Module created.
+*
+*****************************************************************************/
+
+
+/***************************** Include files *******************************/
+#include<stdint.h>
+#include"tm4c123gh6pm.h"
+#include"emp_type.h"
+#include"gpio.h"
+#include"systick.h"
+
+
+/*****************************    Defines    *******************************/
+
+/*****************************   Constants   *******************************/
+
+/*****************************   Variables   *******************************/
+INT8U           counter_value = 0;
+INT8U           direction = 1;
+
+
+int main(void) {
+	
+
+
+
+	return 0;
+}

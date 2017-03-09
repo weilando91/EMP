@@ -2,22 +2,31 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="int" key="selection"/>
+		<item value="GPIO_PORTA_AFSEL_R" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="int"/>
+			<item value="SSIC"/>
+			<item value="SSICR1"/>
+			<item value="GPIO_PORTA_PCTL_R"/>
+			<item value="ctl"/>
+			<item value="GPIO"/>
+			<item value="GPIOct"/>
+			<item value="GPIOc"/>
+			<item value="GPIOPCTL"/>
 		</list>
 		<list key="replacehistory">
+			<item value=".intvecs"/>
+			<item value=".isr_vector"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="271" key="DIALOG_WIDTH"/>
 		<item value="1|Open Sans|9.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
 		<item value="436" key="DIALOG_HEIGHT"/>
-		<item value="38" key="DIALOG_X_ORIGIN"/>
-		<item value="235" key="DIALOG_Y_ORIGIN"/>
+		<item value="1431" key="DIALOG_X_ORIGIN"/>
+		<item value="305" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

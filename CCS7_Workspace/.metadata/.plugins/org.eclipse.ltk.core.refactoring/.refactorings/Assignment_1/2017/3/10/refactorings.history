@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Assignment_1/lock&apos; to &apos;lock.c&apos;" description="Rename resource &apos;lock&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="lock" name="lock.c" stamp="1488809807022" updateReferences="true"/>
+</session>

@@ -1,27 +1,26 @@
 #include <stdint.h>
 #include "tm4c123gh6pm.h"
 #include "emp_type.h"
-//#include "string.h"
 
 
 
-#define SYSTICK_RELOAD_VALUE 80000 // 5 mS
+#define SYSTICK_RELOAD_VALUE 80000              // 5 mS
 
 // Missing definitions in tm4c123gh6pm.h file
-#define NVIC_INT_CTRL_PEND_SYST   0x04000000  // Pend a systick int
-#define NVIC_INT_CTRL_UNPEND_SYST 0x02000000  // Unpend a systick int
+#define NVIC_INT_CTRL_PEND_SYST   0x04000000    // Pend a systick int
+#define NVIC_INT_CTRL_UNPEND_SYST 0x02000000    // Unpend a systick int
 
 #define SYSTICK_PRIORITY    0x7E
 
+volatile INT16S ticks = 0;
 
-void SysTick_Handler(void)
+void systick_handler(void)
 /*****************************************************************************
 *   Function : See module specification (.h-file).
 *****************************************************************************/
 {
   // Hardware clears systick int reguest
-
-  // Do your stuff
+  ticks++;
 }
 
 
@@ -40,7 +39,7 @@ void disable_global_int()
 
 
 
-void SysTickInit()
+void init_systick()
 {
 
   // Disable systick timer

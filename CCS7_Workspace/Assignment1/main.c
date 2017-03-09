@@ -1,21 +1,46 @@
+/*****************************************************************************
+* University of Southern Denmark
+* Embedded Programming (EMP)
+*
+* MODULENAME.: emp.c
+*
+* PROJECT....: EMP
+*
+* DESCRIPTION: See module specification file (.h-file).
+*
+* Change Log:
+*****************************************************************************/
+/* Date    Id    Change
+* YYMMDD
+* --------------------
+* 050128  KA    Module created.
+*
+*****************************************************************************/
 
-
-/*
- * main.c
- */
-
+/***************************** Include files *******************************/
 #include<stdint.h>
 #include"tm4c123gh6pm.h"
 #include"emp_type.h"
-//#include"systick.c"
-
-INT8U       counter_value = 0;
-INT8U       direction = 1;
+#include"systick.h"
 
 
+/*****************************    Defines    *******************************/
 
-int main(void) {
+/*****************************   Constants   *******************************/
 
+/*****************************   Variables   *******************************/
+INT8U           counter_value = 0;
+INT8U           direction = 1;
+
+/*****************************   Functions   *******************************/
+
+void init_gpio(void)
+/*****************************************************************************
+*   Input    :
+*   Output   :
+*   Function :
+******************************************************************************/
+{
     int dummy;
 
     // Enable the GPIO port that is used for the on-board LEDs and switches.
@@ -32,22 +57,41 @@ int main(void) {
 
     // Enable internal pull-up (PF4).
     GPIO_PORTF_PUR_R = 0x10;
+}
 
 
-    GPIO_PORTF_DATA_R = 0x00;
+int main(void) {
+/*****************************************************************************
+*   Input    :
+*   Output   :
+*   Function :
+******************************************************************************/
+
+
+
+    // Setup systick timer
+    disable_global_int();
+    init_gpio();
+    init_systick();
+    enable_global_int();
+
+
+//    GPIO_PORTF_DATA_R = 0x00;
 
     // Loop forever.
     while(1)
     {
+
         if( GPIO_PORTF_DATA_R & 0x10 )         //if PF4 er high
         {
-//            GPIO_PORTF_DATA_R &= ~(0x02);
+            GPIO_PORTF_DATA_R &= ~(0x02);
 //            counter_value = 0x00;
         }
         else
         {
-  //          GPIO_PORTF_DATA_R |= 0x02;
-
+            GPIO_PORTF_DATA_R |= 0x02;
+        }
+/*
             if(direction = 1)
             {
                 if( counter_value >= 7)
@@ -75,6 +119,7 @@ int main(void) {
 
 
 
+
         if(counter_value & 0x01)
                     GPIO_PORTF_DATA_R |= 0x08;          //bit 0
                 else
@@ -91,12 +136,18 @@ int main(void) {
                     GPIO_PORTF_DATA_R &= ~(0x02);
 
 
+//        while( !ticks );
+//        {
+//
+//            ticks--;
+//
+//        }
 
         while( !(GPIO_PORTF_DATA_R & 0x10))
         {
             //do nothing
         }
-
+    */
     }
     return 0;
 }
